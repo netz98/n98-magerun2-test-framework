@@ -2,6 +2,7 @@
 
 namespace N98\Magento\Command\Developer\Console\PHPUnit;
 
+use N98\Magento\Command\Developer\Console\AbstractConsoleCommand;
 use Magento\Framework\Filesystem\Directory\WriteInterface;
 use N98\Magento\Command\PHPUnit\TestCase as BaseTestCase;
 use PHPUnit_Framework_MockObject_MockObject;
