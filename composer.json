@@ -15,7 +15,6 @@
     "php": ">=5.3.3"
   },
   "require-dev": {
-    "n98/magerun2-test-framework": "dev-master",
     "phpunit/phpunit": "~4.1.0",
     "mikey179/vfsStream": "~1.4"
   },
