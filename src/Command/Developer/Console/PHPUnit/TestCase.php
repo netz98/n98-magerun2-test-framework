@@ -52,7 +52,7 @@ abstract class TestCase extends BaseTestCase
                     $buffer = preg_replace(array_keys($replacements), $replacements, $subject);
                     $expected = file_get_contents($referenceFilePath);
 
-                    $this->assertEquals($buffer, $expected);
+                    $this->assertEquals($expected, $buffer);
 
                     return $buffer === $expected;
                 })
