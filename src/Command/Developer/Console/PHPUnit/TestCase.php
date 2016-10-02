@@ -31,17 +31,15 @@ abstract class TestCase extends BaseTestCase
      * @param string $reference
      * @return PHPUnit_Framework_MockObject_MockObject|WriteInterface
      */
-    protected function mockWriterFileCWriteFileAssertion($reference)
+    protected function mockWriterFileWriteFileAssertion($referenceFilePath)
     {
-        $path = sprintf(__DIR__ . '/_files/reference/%s.php', ucfirst($reference));
-
         $writerMock = $this->getMock(WriteInterface::class);
         $writerMock
             ->expects($this->once())
             ->method('writeFile')
             ->with(
                 $this->anything(), // param1
-                $this->callback(function ($subject) use ($path) {
+                $this->callback(function ($subject) use ($referenceFilePath) {
                     // apply cs-fixes as the code generator is a mess
                     $replacements = [
                         // empty class/interface
@@ -52,7 +50,7 @@ abstract class TestCase extends BaseTestCase
                         '~^(class .*)\n{\n\n~m' => "\\1\n{\n",
                     ];
                     $buffer = preg_replace(array_keys($replacements), $replacements, $subject);
-                    $expected = file_get_contents($path);
+                    $expected = file_get_contents($referenceFilePath);
 
                     $this->assertEquals($buffer, $expected);
 
