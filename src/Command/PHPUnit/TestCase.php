@@ -5,6 +5,8 @@ namespace N98\Magento\Command\PHPUnit;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use N98\Magento\Application;
+use N98\Magento\Application\ConfigFile;
+use N98\Util\ArrayFunctions;
 use PHPUnit_Framework_MockObject_MockObject;
 use RuntimeException;
 
@@ -25,6 +27,20 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      * @var string|null
      */
     private $root;
+
+    /**
+     * Apply additional YAML config
+     *
+     * @param $configPath Path to YAML config file
+     * @return void
+     */
+    public function loadConfigFile($configPath)
+    {
+        $config = $this->getApplication()->getConfig();
+        $additionalConfig = ConfigFile::createFromFile($configPath)->toArray();
+        $mergedConfig = ArrayFunctions::mergeArrays($config, $additionalConfig);
+        $this->getApplication()->reinit($mergedConfig);
+    }
 
     /**
      * @param string $varname name of the environment variable containing the test-root
@@ -100,7 +116,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
             /** @var Application|PHPUnit_Framework_MockObject_MockObject $application */
             $application = $this->getMock('N98\Magento\Application', array('getMagentoRootFolder'));
-            $loader = require __DIR__ . '/../../../../../vendor/autoload.php';
+            $loader = require __DIR__ . '/../../../../../../vendor/autoload.php';
             $application->setAutoloader($loader);
             $application->expects($this->any())->method('getMagentoRootFolder')->will($this->returnValue($root));
             $application->init();
