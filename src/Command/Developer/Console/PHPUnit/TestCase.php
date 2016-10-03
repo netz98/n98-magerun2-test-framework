@@ -2,8 +2,8 @@
 
 namespace N98\Magento\Command\Developer\Console\PHPUnit;
 
-use N98\Magento\Command\Developer\Console\AbstractConsoleCommand;
 use Magento\Framework\Filesystem\Directory\WriteInterface;
+use N98\Magento\Command\Developer\Console\AbstractConsoleCommand;
 use N98\Magento\Command\PHPUnit\TestCase as BaseTestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use Psy\Context;
@@ -28,14 +28,26 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * @param string $reference
-     * @return PHPUnit_Framework_MockObject_MockObject|WriteInterface
+     * @param $referenceFilePath
+     * @param \PHPUnit_Framework_MockObject_MockObject|null $writerMock
+     * @param \PHPUnit_Framework_MockObject_Matcher_Invocation|null $matcher
+     * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    protected function mockWriterFileWriteFileAssertion($referenceFilePath)
-    {
-        $writerMock = $this->getMock(WriteInterface::class);
+    protected function mockWriterFileWriteFileAssertion(
+        $referenceFilePath,
+        \PHPUnit_Framework_MockObject_MockObject $writerMock = null,
+        \PHPUnit_Framework_MockObject_Matcher_Invocation $matcher = null
+    ) {
+        if ($writerMock === null) {
+            $writerMock = $this->getMockBuilder(WriteInterface::class)->getMock();
+        }
+
+        if ($matcher === null) {
+            $matcher = $this->once();
+        }
+
         $writerMock
-            ->expects($this->once())
+            ->expects($matcher)
             ->method('writeFile')
             ->with(
                 $this->anything(), // param1
@@ -57,6 +69,7 @@ abstract class TestCase extends BaseTestCase
                     return $buffer === $expected;
                 })
             );
+
         return $writerMock;
     }
 }
