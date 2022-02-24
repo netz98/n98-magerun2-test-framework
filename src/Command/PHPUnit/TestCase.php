@@ -7,7 +7,7 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
 use N98\Magento\Application;
 use N98\Magento\Application\ConfigFile;
 use N98\Util\ArrayFunctions;
-use PHPUnit_Framework_MockObject_MockObject;
+use PHPUnit\Framework\MockObject\MockObject;
 use RuntimeException;
 
 /**
@@ -16,7 +16,7 @@ use RuntimeException;
  * @codeCoverageIgnore
  * @package N98\Magento\Command\PHPUnit
  */
-abstract class TestCase extends \PHPUnit_Framework_TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Application
@@ -107,14 +107,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Application|PHPUnit_Framework_MockObject_MockObject
+     * @return Application|\PHPUnit\Framework\MockObject\MockObject
      */
     public function getApplication()
     {
         if ($this->application === null) {
             $root = $this->getTestMagentoRoot();
 
-            /** @var Application|PHPUnit_Framework_MockObject_MockObject $application */
+            /** @var Application|\PHPUnit\Framework\MockObject\MockObject $application */
             $application = $this->getMock('N98\Magento\Application', array('getMagentoRootFolder'));
             $loader = require __DIR__ . '/../../../../../../vendor/autoload.php';
             $application->setAutoloader($loader);
