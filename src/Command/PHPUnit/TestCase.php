@@ -37,8 +37,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     public function loadConfigFile($configPath)
     {
         $config = $this->getApplication()->getConfig();
-        $additionalConfig = ConfigFile::createFromFile($configPath)->toArray();
-        $mergedConfig = ArrayFunctions::mergeArrays($config, $additionalConfig);
+        $additionalConfig = ConfigFile::createFromFile($configPath);
+        $configFile = new \SplFileInfo($configPath);
+        $additionalConfig->applyVariables($this->getApplication()->getMagentoRootFolder(), $configFile);
+        $additionalConfigArray = $additionalConfig->toArray();
+
+        $mergedConfig = ArrayFunctions::mergeArrays($config, $additionalConfigArray);
         $this->getApplication()->reinit($mergedConfig);
     }
 
@@ -115,10 +119,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $root = $this->getTestMagentoRoot();
 
             /** @var Application|\PHPUnit\Framework\MockObject\MockObject $application */
-            $application = $this->getMock('N98\Magento\Application', array('getMagentoRootFolder'));
+            $application = $this->getMockBuilder(\N98\Magento\Application::class)
+                ->onlyMethods(['getMagentoRootFolder'])
+                ->getMock();
+            $application->expects($this->any())->method('getMagentoRootFolder')->will($this->returnValue($root));
             $loader = require __DIR__ . '/../../../../../../vendor/autoload.php';
             $application->setAutoloader($loader);
-            $application->expects($this->any())->method('getMagentoRootFolder')->will($this->returnValue($root));
             $application->init();
             $application->initMagento();
 

@@ -122,11 +122,6 @@ Example module structure:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
          bootstrap="vendor/autoload.php"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
   <coverage includeUncoveredFiles="true">
@@ -136,7 +131,7 @@ Example module structure:
   </coverage>
   <testsuites>
     <testsuite name="n98-magerun2 Project Transfer Tools Commands">
-      <directory suffix="Test.php">tests</directory>
+      <directory>tests</directory>
     </testsuite>
   </testsuites>
 </phpunit>
