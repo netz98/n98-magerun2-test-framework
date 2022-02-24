@@ -31,7 +31,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * Apply additional YAML config
      *
-     * @param $configPath Path to YAML config file
+     * @param string $configPath Path to YAML config file
      * @return void
      */
     public function loadConfigFile($configPath)
