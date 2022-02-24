@@ -121,24 +121,24 @@ Example module structure:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit convertErrorsToExceptions="true"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="false"
-         bootstrap="vendor/autoload.php">
-    <testsuites>
-        <testsuite name="n98-magerun2 Acme Commands">
-            <directory suffix="Test.php">tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <filter>
-        <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory>src</directory>
-        </whitelist>
-    </filter>
+         bootstrap="vendor/autoload.php"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage includeUncoveredFiles="true">
+    <include>
+      <directory>src</directory>
+    </include>
+  </coverage>
+  <testsuites>
+    <testsuite name="n98-magerun2 Project Transfer Tools Commands">
+      <directory suffix="Test.php">tests</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>
 ```
 
@@ -147,13 +147,11 @@ Example module structure:
 ```json
 {
   "name": "acme/example",
-  "description": "Some commands",
-  "require": {
-    "n98/magerun2": "1.2.*"
-  },
+  "description": "Some commands",  
   "require-dev": {
-    "n98/magerun2-test-framework": "dev-master",
-    "phpunit/phpunit": "~4.1.0"
+    "n98/magerun2": "^4",
+    "n98/magerun2-test-framework": "^2",
+    "phpunit/phpunit": "^9"
   },
   "autoload-dev": {
     "psr-4": {
