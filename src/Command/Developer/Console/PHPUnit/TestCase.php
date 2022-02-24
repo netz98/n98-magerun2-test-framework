@@ -28,7 +28,7 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * @param $referenceFilePath
+     * @param string $referenceFilePath
      * @param \PHPUnit_Framework_MockObject_MockObject|null $writerMock
      * @param \PHPUnit_Framework_MockObject_Matcher_Invocation|null $matcher
      * @return \PHPUnit_Framework_MockObject_MockObject
